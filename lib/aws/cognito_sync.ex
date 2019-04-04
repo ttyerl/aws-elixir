@@ -270,11 +270,15 @@ defmodule AWS.Cognito.Sync do
   def update_records(client, dataset_name, identity_id, identity_pool_id, input, options \\ []) do
     url = "/identitypools/#{URI.encode(identity_pool_id)}/identities/#{URI.encode(identity_id)}/datasets/#{URI.encode(dataset_name)}"
     headers = []
-    if Dict.has_key?(input, "ClientContext") do
-      headers = [{"x-amz-Client-Context", input["ClientContext"]}|headers]
-      input = Dict.delete(input, "ClientContext")
-    end
-    request(client, :post, url, headers, input, options, 200)
+    {h, i} = case Map.has_key?(input, "ClientContext") do
+                true ->
+                  headers = [{"x-amz-Client-Context", input["ClientContext"]}|headers]
+                  input = Map.delete(input, "ClientContext")
+                  {headers, input}
+                false ->
+                  {headers, input}
+              end
+    request(client, :post, url, h, i, options, 200)
   end
 
   defp request(client, method, url, headers, input, options, success_status_code) do

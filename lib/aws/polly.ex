@@ -105,12 +105,16 @@ defmodule AWS.Polly do
     headers = []
     case request(client, :post, url, headers, input, options, 200) do
       {:ok, body, response} ->
-        if !is_nil(response.headers["Content-Type"]) do
-          body = %{body | "ContentType" => response.headers["Content-Type"]}
-        end
-        if !is_nil(response.headers["x-amzn-RequestCharacters"]) do
-          body = %{body | "RequestCharacters" => response.headers["x-amzn-RequestCharacters"]}
-        end
+        body = if !is_nil(response.headers["Content-Type"]) do
+                %{body | "ContentType" => response.headers["Content-Type"]}
+              else
+                body
+              end
+        body = if !is_nil(response.headers["x-amzn-RequestCharacters"]) do
+                %{body | "RequestCharacters" => response.headers["x-amzn-RequestCharacters"]}
+              else
+                body
+              end
         {:ok, body, response}
       result ->
         result

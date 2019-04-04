@@ -19,9 +19,9 @@ defmodule AWS.Lambda do
   Adds a permission to the resource policy associated with the specified AWS
   Lambda function. You use resource policies to grant permissions to event
   sources that use *push* model. In a *push* model, event sources (such as
-  Amazon S3 and custom applications) invoke your Lambda function. Each
+  Amazon S3 and custom applications)  your Lambda function. Each
   permission you add to the resource policy allows an event source,
-  permission to invoke the Lambda function.
+  permission to  the Lambda function.
 
   For information about the push model, see [AWS Lambda: How it
   Works](http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html).
@@ -57,19 +57,19 @@ defmodule AWS.Lambda do
   @doc """
   Identifies a stream as an event source for a Lambda function. It can be
   either an Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda
-  invokes the specified function when records are posted to the stream.
+  s the specified function when records are posted to the stream.
 
   This association between a stream source and a Lambda function is called
   the event source mapping.
 
   <important>This event source mapping is relevant only in the AWS Lambda
-  pull model, where AWS Lambda invokes the function. For more information,
+  pull model, where AWS Lambda s the function. For more information,
   see [AWS Lambda: How it
   Works](http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html)
   in the *AWS Lambda Developer Guide*.
 
   </important> You provide mapping information (for example, which stream to
-  read from and which Lambda function to invoke) in the request body.
+  read from and which Lambda function to ) in the request body.
 
   Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be
   associated with multiple AWS Lambda function. A given Lambda function can
@@ -123,7 +123,7 @@ defmodule AWS.Lambda do
 
   @doc """
   Removes an event source mapping. This means AWS Lambda will no longer
-  invoke the function for events in the associated source.
+   the function for events in the associated source.
 
   This operation requires permission for the
   `lambda:DeleteEventSourceMapping` action.
@@ -263,45 +263,58 @@ defmodule AWS.Lambda do
   end
 
   @doc """
-  Invokes a specific Lambda function. For an example, see [Create the Lambda
+  s a specific Lambda function. For an example, see [Create the Lambda
   Function and Test It
-  Manually](http://docs.aws.amazon.com/lambda/latest/dg/with-dynamodb-create-function.html#with-dbb-invoke-manually).
+  Manually](http://docs.aws.amazon.com/lambda/latest/dg/with-dynamodb-create-function.html#with-dbb--manually).
 
-  If you are using the versioning feature, you can invoke the specific
+  If you are using the versioning feature, you can  the specific
   function version by providing function version or alias name that is
   pointing to the function version using the `Qualifier` parameter in the
   request. If you don't provide the `Qualifier` parameter, the `$LATEST`
-  version of the Lambda function is invoked. Invocations occur at least once
+  version of the Lambda function is d. Invocations occur at least once
   in response to an event and functions must be idempotent to handle this.
   For information about the versioning feature, see [AWS Lambda Function
   Versioning and
   Aliases](http://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html).
 
-  This operation requires permission for the `lambda:InvokeFunction` action.
+  This operation requires permission for the `lambda:Function` action.
   """
   def invoke(client, function_name, input, options \\ []) do
     url = "/2015-03-31/functions/#{URI.encode(function_name)}/invocations"
     headers = []
-    if Dict.has_key?(input, "ClientContext") do
-      headers = [{"X-Amz-Client-Context", input["ClientContext"]}|headers]
-      input = Dict.delete(input, "ClientContext")
-    end
-    if Dict.has_key?(input, "InvocationType") do
-      headers = [{"X-Amz-Invocation-Type", input["InvocationType"]}|headers]
-      input = Dict.delete(input, "InvocationType")
-    end
-    if Dict.has_key?(input, "LogType") do
-      headers = [{"X-Amz-Log-Type", input["LogType"]}|headers]
-      input = Dict.delete(input, "LogType")
-    end
+    {headers, input} = if Map.has_key?(input, "ClientContext") do
+                          h = [{"X-Amz-Client-Context", input["ClientContext"]}|headers]
+                          i = Map.delete(input, "ClientContext")
+                          {h, i}
+                        else
+                          {headers, input}
+                        end
+    {headers, input} = if Map.has_key?(input, "InvocationType") do
+                          h = [{"X-Amz-Invocation-Type", input["InvocationType"]}|headers]
+                          i = Map.delete(input, "InvocationType")
+                          {h, i}
+                        else
+                          {headers, input}
+                        end
+    {headers, input} = if Map.has_key?(input, "LogType") do
+                          h = [{"X-Amz-Log-Type", input["LogType"]}|headers]
+                          i = Map.delete(input, "LogType")
+                          {h, i}
+                        else
+                          {headers, input}
+                        end
     case request(client, :post, url, headers, input, options, nil) do
       {:ok, body, response} ->
-        if !is_nil(response.headers["X-Amz-Function-Error"]) do
-          body = %{body | "FunctionError" => response.headers["X-Amz-Function-Error"]}
-        end
-        if !is_nil(response.headers["X-Amz-Log-Result"]) do
-          body = %{body | "LogResult" => response.headers["X-Amz-Log-Result"]}
-        end
+        body = if !is_nil(response.headers["X-Amz-Function-Error"]) do
+                 %{body | "FunctionError" => response.headers["X-Amz-Function-Error"]}
+               else
+                 body
+               end
+        body = if !is_nil(response.headers["X-Amz-Log-Result"]) do
+                 %{body | "LogResult" => response.headers["X-Amz-Log-Result"]}
+               else
+                 body
+               end
         {:ok, body, response}
       result ->
         result
@@ -309,18 +322,18 @@ defmodule AWS.Lambda do
   end
 
   @doc """
-  <important>This API is deprecated. We recommend you use `Invoke` API (see
-  `Invoke`).
+  <important>This API is deprecated. We recommend you use `` API (see
+  ``).
 
   </important> Submits an invocation request to AWS Lambda. Upon receiving
   the request, Lambda executes the specified function asynchronously. To see
   the logs generated by the Lambda function execution, see the CloudWatch
   Logs console.
 
-  This operation requires permission for the `lambda:InvokeFunction` action.
+  This operation requires permission for the `lambda:Function` action.
   """
-  def invoke_async(client, function_name, input, options \\ []) do
-    url = "/2014-11-13/functions/#{URI.encode(function_name)}/invoke-async"
+  def _async(client, function_name, input, options \\ []) do
+    url = "/2014-11-13/functions/#{URI.encode(function_name)}/-async"
     headers = []
     request(client, :post, url, headers, input, options, 202)
   end

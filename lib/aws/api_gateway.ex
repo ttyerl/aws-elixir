@@ -498,16 +498,22 @@ defmodule AWS.APIGateway do
   def get_export(client, export_type, rest_api_id, stage_name, accepts \\ nil, options \\ []) do
     url = "/restapis/#{URI.encode(rest_api_id)}/stages/#{URI.encode(stage_name)}/exports/#{URI.encode(export_type)}"
     headers = []
-    if !is_nil(accepts) do
-      headers = [{"Accept", accepts}|headers]
+    headers = if !is_nil(accepts) do
+      [{"Accept", accepts}|headers]
+    else
+      headers
     end
     case request(client, :get, url, headers, nil, options, 200) do
       {:ok, body, response} ->
-        if !is_nil(response.headers["Content-Disposition"]) do
-          body = %{body | "contentDisposition" => response.headers["Content-Disposition"]}
+        body = if !is_nil(response.headers["Content-Disposition"]) do
+          %{body | "contentDisposition" => response.headers["Content-Disposition"]}
+        else
+          body
         end
-        if !is_nil(response.headers["Content-Type"]) do
-          body = %{body | "contentType" => response.headers["Content-Type"]}
+        body = if !is_nil(response.headers["Content-Type"]) do
+          %{body | "contentType" => response.headers["Content-Type"]}
+        else
+          body
         end
         {:ok, body, response}
       result ->
@@ -623,11 +629,15 @@ defmodule AWS.APIGateway do
     headers = []
     case request(client, :get, url, headers, nil, options, 200) do
       {:ok, body, response} ->
-        if !is_nil(response.headers["Content-Disposition"]) do
-          body = %{body | "contentDisposition" => response.headers["Content-Disposition"]}
+        body = if !is_nil(response.headers["Content-Disposition"]) do
+          %{body | "contentDisposition" => response.headers["Content-Disposition"]}
+        else
+          body
         end
-        if !is_nil(response.headers["Content-Type"]) do
-          body = %{body | "contentType" => response.headers["Content-Type"]}
+        body = if !is_nil(response.headers["Content-Type"]) do
+          %{body | "contentType" => response.headers["Content-Type"]}
+        else
+          body
         end
         {:ok, body, response}
       result ->
