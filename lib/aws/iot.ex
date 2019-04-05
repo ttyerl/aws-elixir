@@ -40,8 +40,10 @@ defmodule AWS.IoT do
     if Map.has_key?(input, "principal") do
       headers = [{"x-amzn-iot-principal", input["principal"]}|headers]
       input = Map.delete(input, "principal")
+      request(client, :put, url, headers, input, options, nil)
+    else
+      request(client, :put, url, headers, input, options, nil)
     end
-    request(client, :put, url, headers, input, options, nil)
   end
 
   @doc """
@@ -53,8 +55,10 @@ defmodule AWS.IoT do
     if Map.has_key?(input, "principal") do
       headers = [{"x-amzn-principal", input["principal"]}|headers]
       input = Map.delete(input, "principal")
+      request(client, :put, url, headers, input, options, nil)
+    else
+      request(client, :put, url, headers, input, options, nil)
     end
-    request(client, :put, url, headers, input, options, nil)
   end
 
   @doc """
@@ -354,8 +358,10 @@ defmodule AWS.IoT do
     if Map.has_key?(input, "principal") do
       headers = [{"x-amzn-iot-principal", input["principal"]}|headers]
       input = Map.delete(input, "principal")
+      request(client, :delete, url, headers, input, options, nil)
+    else
+      request(client, :delete, url, headers, input, options, nil)
     end
-    request(client, :delete, url, headers, input, options, nil)
   end
 
   @doc """
@@ -367,8 +373,10 @@ defmodule AWS.IoT do
     if Map.has_key?(input, "principal") do
       headers = [{"x-amzn-principal", input["principal"]}|headers]
       input = Map.delete(input, "principal")
+      request(client, :delete, url, headers, input, options, nil)
+    else
+      request(client, :delete, url, headers, input, options, nil)
     end
-    request(client, :delete, url, headers, input, options, nil)
   end
 
   @doc """
@@ -494,8 +502,10 @@ defmodule AWS.IoT do
     headers = []
     if !is_nil(policy_name) do
       headers = [{"x-amzn-iot-policy", policy_name}|headers]
+      request(client, :get, url, headers, nil, options, nil)
+    else
+      request(client, :get, url, headers, nil, options, nil)
     end
-    request(client, :get, url, headers, nil, options, nil)
   end
 
   @doc """
@@ -518,8 +528,10 @@ defmodule AWS.IoT do
     headers = []
     if !is_nil(principal) do
       headers = [{"x-amzn-iot-principal", principal}|headers]
+      request(client, :get, url, headers, nil, options, nil)
+    else
+      request(client, :get, url, headers, nil, options, nil)
     end
-    request(client, :get, url, headers, nil, options, nil)
   end
 
   @doc """
@@ -530,8 +542,10 @@ defmodule AWS.IoT do
     headers = []
     if !is_nil(principal) do
       headers = [{"x-amzn-principal", principal}|headers]
+      request(client, :get, url, headers, nil, options, nil)
+    else
+      request(client, :get, url, headers, nil, options, nil)
     end
-    request(client, :get, url, headers, nil, options, nil)
   end
 
   @doc """
