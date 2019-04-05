@@ -105,10 +105,7 @@ defmodule AWS.CloudDirectory do
   def batch_read(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/batchread"
     headers = []
-    if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-    end
+    {headers, input} = consistency_level(headers, input)
     if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -406,13 +403,7 @@ defmodule AWS.CloudDirectory do
   def get_object_information(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/information"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -455,13 +446,7 @@ defmodule AWS.CloudDirectory do
   def list_attached_indices(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/indices"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -526,11 +511,7 @@ defmodule AWS.CloudDirectory do
   def list_index(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/index/targets"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -545,13 +526,7 @@ defmodule AWS.CloudDirectory do
   def list_object_attributes(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/attributes"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -568,13 +543,7 @@ defmodule AWS.CloudDirectory do
   def list_object_children(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/children"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -591,13 +560,7 @@ defmodule AWS.CloudDirectory do
   def list_object_parents(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/parent"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -614,13 +577,7 @@ defmodule AWS.CloudDirectory do
   def list_object_policies(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/policy"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -637,13 +594,7 @@ defmodule AWS.CloudDirectory do
   def list_policy_attachments(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/policy/attachment"
     headers = []
-    {headers, input} = if Map.has_key?(input, "ConsistencyLevel") do
-      headers = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
-      input = Map.delete(input, "ConsistencyLevel")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = consistency_level(headers, input)
     {headers, input} = if Map.has_key?(input, "DirectoryArn") do
       headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
       input = Map.delete(input, "DirectoryArn")
@@ -878,6 +829,16 @@ defmodule AWS.CloudDirectory do
       Poison.Encoder.encode(input, [])
     else
       ""
+    end
+  end
+
+  defp consistency_level(headers, input) do
+    if Map.has_key?(input, "ConsistencyLevel") do
+      h = [{"x-amz-consistency-level", input["ConsistencyLevel"]}|headers]
+      i = Map.delete(input, "ConsistencyLevel")
+      {h, i}
+    else
+      {headers, input}
     end
   end
 end

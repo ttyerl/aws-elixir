@@ -7,6 +7,26 @@ defmodule AWS.MobileAnalytics do
   understanding app usage data at scale.
   """
 
+  defp client_context(headers, input) do
+    if Map.has_key?(input, "clientContext") do
+      h = [{"x-amz-Client-Context", input["clientContext"]}|headers]
+      i = Map.delete(input, "clientContext")
+      {h, i}
+    else
+      {headers, input}
+    end
+  end
+
+  defp client_context_encoding(headers, input) do
+    if Map.has_key?(input, "clientContextEncoding") do
+      h = [{"x-amz-Client-Context-Encoding", input["clientContextEncoding"]}|headers]
+      i = Map.delete(input, "clientContextEncoding")
+      {h, i}
+    else
+      {headers, input}
+    end
+  end
+
   @doc """
   The PutEvents operation records one or more events. You can have up to
   1,500 unique custom events per app, any combination of up to 40 attributes
@@ -15,14 +35,9 @@ defmodule AWS.MobileAnalytics do
   def put_events(client, input, options \\ []) do
     url = "/2014-06-05/events"
     headers = []
-    if Map.has_key?(input, "clientContext") do
-      headers = [{"x-amz-Client-Context", input["clientContext"]}|headers]
-      input = Map.delete(input, "clientContext")
-    end
-    if Map.has_key?(input, "clientContextEncoding") do
-      headers = [{"x-amz-Client-Context-Encoding", input["clientContextEncoding"]}|headers]
-      input = Map.delete(input, "clientContextEncoding")
-    end
+    {headers, input} = client_context(headers, input)
+    {headers, input} = client_context_encoding(headers, input)
+    
     request(client, :post, url, headers, input, options, 202)
   end
 
