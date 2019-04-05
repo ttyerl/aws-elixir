@@ -21,13 +21,8 @@ defmodule AWS.CloudDirectory do
   def add_facet_to_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/facets"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -37,13 +32,8 @@ defmodule AWS.CloudDirectory do
   def apply_schema(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/schema/apply"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -59,13 +49,8 @@ defmodule AWS.CloudDirectory do
   def attach_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/attach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -75,13 +60,8 @@ defmodule AWS.CloudDirectory do
   def attach_policy(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/policy/attach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -90,13 +70,8 @@ defmodule AWS.CloudDirectory do
   def attach_to_index(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/index/attach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -106,10 +81,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/batchread"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -120,13 +92,8 @@ defmodule AWS.CloudDirectory do
   def batch_write(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/batchwrite"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -169,13 +136,8 @@ defmodule AWS.CloudDirectory do
   def create_index(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/index"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -188,13 +150,8 @@ defmodule AWS.CloudDirectory do
   def create_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -229,13 +186,8 @@ defmodule AWS.CloudDirectory do
   def delete_directory(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/directory"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -261,13 +213,8 @@ defmodule AWS.CloudDirectory do
   def delete_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/delete"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -292,13 +239,8 @@ defmodule AWS.CloudDirectory do
   def detach_from_index(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/index/detach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -308,13 +250,8 @@ defmodule AWS.CloudDirectory do
   def detach_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/detach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -323,13 +260,8 @@ defmodule AWS.CloudDirectory do
   def detach_policy(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/policy/detach"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -340,13 +272,8 @@ defmodule AWS.CloudDirectory do
   def disable_directory(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/directory/disable"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -356,13 +283,8 @@ defmodule AWS.CloudDirectory do
   def enable_directory(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/directory/enable"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -371,13 +293,8 @@ defmodule AWS.CloudDirectory do
   def get_directory(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/directory/get"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -404,13 +321,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/information"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -447,13 +358,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/indices"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -512,11 +417,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/index/targets"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -527,13 +428,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/attributes"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -544,13 +439,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/children"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -561,13 +450,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/parent"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -578,14 +461,18 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/object/policy"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
+    {headers, input} = directory_arn(headers, input)
+    request(client, :post, url, headers, input, options, 200)
+  end
+
+  defp directory_arn(headers, input) do
+    if Map.has_key?(input, "DirectoryArn") do
+      h = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
+      i = Map.delete(input, "DirectoryArn")
+      {h, i}
     else
       {headers, input}
     end
-    request(client, :post, url, headers, input, options, 200)
   end
 
   @doc """
@@ -595,13 +482,7 @@ defmodule AWS.CloudDirectory do
     url = "/amazonclouddirectory/2017-01-11/policy/attachment"
     headers = []
     {headers, input} = consistency_level(headers, input)
-    {headers, input} = if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      {headers, input}
-    else
-      {headers, input}
-    end
+    {headers, input} = directory_arn(headers, input)
     request(client, :post, url, headers, input, options, 200)
   end
 
@@ -636,13 +517,8 @@ defmodule AWS.CloudDirectory do
   def lookup_policy(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/policy/lookup"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -687,13 +563,8 @@ defmodule AWS.CloudDirectory do
   def remove_facet_from_object(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/facets/delete"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
@@ -743,13 +614,8 @@ defmodule AWS.CloudDirectory do
   def update_object_attributes(client, input, options \\ []) do
     url = "/amazonclouddirectory/2017-01-11/object/update"
     headers = []
-    if Map.has_key?(input, "DirectoryArn") do
-      headers = [{"x-amz-data-partition", input["DirectoryArn"]}|headers]
-      input = Map.delete(input, "DirectoryArn")
-      request(client, :put, url, headers, input, options, 200)
-    else
-      request(client, :put, url, headers, input, options, 200)
-    end
+    {headers, input} = directory_arn(headers, input)
+    request(client, :put, url, headers, input, options, 200)
   end
 
   @doc """
